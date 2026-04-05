@@ -7,10 +7,12 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello from Monkey!")
-	fmt.Println()
+	fmt.Printf("Hello from Monkey!\n\n")
 
-	fmt.Println("Printing token for '4':")
-	four := token.Token{Type: token.INTEGER_LITERAL, Literal: "4"}
-	fmt.Println(four)
+	for {
+		var s string
+		fmt.Print("Enter your token: ")
+		fmt.Scan(&s)
+		fmt.Printf("String %s is %s\n\n", s, token.CreateToken(s))
+	}
 }
