@@ -5,113 +5,113 @@ import (
 )
 
 func CreateToken(word string) Token {
-	if isMatch, _ := regexp.MatchString(string(EndOfFileExpr.Expr), word); isMatch {
-		return CreateEndOfFileToken()
+	if isMatch, _ := regexp.MatchString(EndOfFileExpr.Expression, word); isMatch {
+		return EndOfFileExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(LetExpr.Expr), word); isMatch {
-		return CreateLetToken()
+	if isMatch, _ := regexp.MatchString(LetExpr.Expression, word); isMatch {
+		return LetExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(FunctionExpr.Expr), word); isMatch {
-		return CreateFunctionToken()
+	if isMatch, _ := regexp.MatchString(FunctionExpr.Expression, word); isMatch {
+		return FunctionExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(ReturnExpr.Expr), word); isMatch {
-		return CreateReturnToken()
+	if isMatch, _ := regexp.MatchString(ReturnExpr.Expression, word); isMatch {
+		return ReturnExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(PlusExpr.Expr), word); isMatch {
-		return CreatePlusToken()
+	if isMatch, _ := regexp.MatchString(PlusExpr.Expression, word); isMatch {
+		return PlusExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(MinusExpr.Expr), word); isMatch {
-		return CreateMinusToken()
+	if isMatch, _ := regexp.MatchString(MinusExpr.Expression, word); isMatch {
+		return MinusExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(MultiplyExpr.Expr), word); isMatch {
-		return CreateMultiplyToken()
+	if isMatch, _ := regexp.MatchString(MultiplyExpr.Expression, word); isMatch {
+		return MultiplyExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(DivideExpr.Expr), word); isMatch {
-		return CreateDivideToken()
+	if isMatch, _ := regexp.MatchString(DivideExpr.Expression, word); isMatch {
+		return DivideExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(AssignExpr.Expr), word); isMatch {
-		return CreateAssignToken()
+	if isMatch, _ := regexp.MatchString(AssignExpr.Expression, word); isMatch {
+		return AssignExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(IsEqualExpr.Expr), word); isMatch {
-		return CreateIsEqualToken()
+	if isMatch, _ := regexp.MatchString(IsEqualExpr.Expression, word); isMatch {
+		return IsEqualExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(IsNotEqualExpr.Expr), word); isMatch {
-		return CreateIsNotEqualToken()
+	if isMatch, _ := regexp.MatchString(IsNotEqualExpr.Expression, word); isMatch {
+		return IsNotEqualExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(IsLessThanExpr.Expr), word); isMatch {
-		return CreateIsLessThanToken()
+	if isMatch, _ := regexp.MatchString(IsLessThanExpr.Expression, word); isMatch {
+		return IsLessThanExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(IsGreaterThanExpr.Expr), word); isMatch {
-		return CreateIsGreaterThanToken()
+	if isMatch, _ := regexp.MatchString(IsGreaterThanExpr.Expression, word); isMatch {
+		return IsGreaterThanExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(IsLessThanOrEqualExpr.Expr), word); isMatch {
-		return CreateIsLessThanOrEqualToken()
+	if isMatch, _ := regexp.MatchString(IsLessThanOrEqualExpr.Expression, word); isMatch {
+		return IsLessThanOrEqualExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(IsGreaterThanOrEqualExpr.Expr), word); isMatch {
-		return CreateIsGreaterThanOrEqualToken()
+	if isMatch, _ := regexp.MatchString(IsGreaterThanOrEqualExpr.Expression, word); isMatch {
+		return IsGreaterThanOrEqualExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(CommaExpr.Expr), word); isMatch {
-		return CreateCommaToken()
+	if isMatch, _ := regexp.MatchString(CommaExpr.Expression, word); isMatch {
+		return CommaExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(SemicolonExpr.Expr), word); isMatch {
-		return CreateSemicolonToken()
+	if isMatch, _ := regexp.MatchString(SemicolonExpr.Expression, word); isMatch {
+		return SemicolonExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(LeftParenExpr.Expr), word); isMatch {
-		return CreateLeftParenToken()
+	if isMatch, _ := regexp.MatchString(LeftParenExpr.Expression, word); isMatch {
+		return LeftParenExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(RightParenExpr.Expr), word); isMatch {
-		return CreateRightParenToken()
+	if isMatch, _ := regexp.MatchString(RightParenExpr.Expression, word); isMatch {
+		return RightParenExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(LeftBraceExpr.Expr), word); isMatch {
-		return CreateLeftBraceToken()
+	if isMatch, _ := regexp.MatchString(LeftBraceExpr.Expression, word); isMatch {
+		return LeftBraceExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(RightBraceExpr.Expr), word); isMatch {
-		return CreateRightBraceToken()
+	if isMatch, _ := regexp.MatchString(RightBraceExpr.Expression, word); isMatch {
+		return RightBraceExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(TrueExpr.Expr), word); isMatch {
-		return CreateTrueToken()
+	if isMatch, _ := regexp.MatchString(TrueExpr.Expression, word); isMatch {
+		return TrueExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(FalseExpr.Expr), word); isMatch {
-		return CreateFalseToken()
+	if isMatch, _ := regexp.MatchString(FalseExpr.Expression, word); isMatch {
+		return FalseExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(IntegerLiteralExpr.Expr), word); isMatch {
-		return CreateIntegerLiteralToken(word)
+	if isMatch, _ := regexp.MatchString(IntegerLiteralExpr.Expression, word); isMatch {
+		return IntegerLiteralExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(FloatLiteralExpr.Expr), word); isMatch {
-		return CreateFloatLiteralToken(word)
+	if isMatch, _ := regexp.MatchString(FloatLiteralExpr.Expression, word); isMatch {
+		return FloatLiteralExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(StringLiteralExpr.Expr), word); isMatch {
-		return CreateStringLiteralToken(word)
+	if isMatch, _ := regexp.MatchString(StringLiteralExpr.Expression, word); isMatch {
+		return StringLiteralExpr.Create(word)
 	}
 
-	if isMatch, _ := regexp.MatchString(string(IdentifierExpr.Expr), word); isMatch {
-		return CreateIdentifierToken(word)
+	if isMatch, _ := regexp.MatchString(IdentifierExpr.Expression, word); isMatch {
+		return IdentifierExpr.Create(word)
 	}
 
-	return CreateIllegalToken()
+	return IllegalExpr.Create(word)
 }
