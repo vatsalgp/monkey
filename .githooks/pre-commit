@@ -4,9 +4,13 @@ set -euo pipefail
 # Format only staged Go files that are part of this commit.
 go_files="$(git diff --cached --name-only --diff-filter=ACMR -- '*.go')"
 
-if [ -z "$go_files" ]; then
-  exit 0
+if [ -n "$go_files" ]; then
+  printf '%s\n' "$go_files" | xargs gofmt -w
+  printf '%s\n' "$go_files" | xargs git add --
 fi
 
-printf '%s\n' "$go_files" | xargs gofmt -w
-printf '%s\n' "$go_files" | xargs git add --
+# Prevent empty commits after formatting/restaging.
+if git diff --cached --quiet; then
+  echo "Aborting commit: commit contents are empty."
+  exit 1
+fi
