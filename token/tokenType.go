@@ -1,0 +1,48 @@
+package token
+
+type TokenType string
+
+const (
+	// SPECIAL
+	ILLEGAL     TokenType = "ILLEGAL"
+	END_OF_FILE TokenType = "END_OF_FILE"
+
+	// KEYWORDS
+	LET      TokenType = "LET"
+	FUNCTION TokenType = "FUNCTION"
+	RETURN   TokenType = "RETURN"
+
+	// IDENTIFIERS
+	IDENTIFIER TokenType = "IDENTIFIER"
+
+	// LITERALS
+	INTEGER_LITERAL TokenType = "INTEGER_LITERAL"
+	STRING_LITERAL  TokenType = "STRING_LITERAL"
+	FLOAT_LITERAL   TokenType = "FLOAT_LITERAL"
+	BOOLEAN_LITERAL TokenType = "BOOLEAN_LITERAL"
+
+	// OPERATORS
+	PLUS     TokenType = "PLUS"
+	MINUS    TokenType = "MINUS"
+	MULTIPLY TokenType = "MULTIPLY"
+	DIVIDE   TokenType = "DIVIDE"
+	ASSIGN   TokenType = "ASSIGN"
+
+	// COMPARISON OPERATORS
+	IS_EQUAL                 TokenType = "IS_EQUAL"
+	IS_NOT_EQUAL             TokenType = "IS_NOT_EQUAL"
+	IS_LESS_THAN             TokenType = "IS_LESS_THAN"
+	IS_GREATER_THAN          TokenType = "IS_GREATER_THAN"
+	IS_LESS_THAN_OR_EQUAL    TokenType = "IS_LESS_THAN_OR_EQUAL"
+	IS_GREATER_THAN_OR_EQUAL TokenType = "IS_GREATER_THAN_OR_EQUAL"
+
+	// DELIMITERS
+	COMMA     TokenType = "COMMA"
+	SEMICOLON TokenType = "SEMICOLON"
+
+	// SYMBOLS
+	LEFT_PAREN  TokenType = "LEFT_PAREN"
+	RIGHT_PAREN TokenType = "RIGHT_PAREN"
+	LEFT_BRACE  TokenType = "LEFT_BRACE"
+	RIGHT_BRACE TokenType = "RIGHT_BRACE"
+)
