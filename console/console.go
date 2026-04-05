@@ -2,27 +2,46 @@ package console
 
 import (
 	"bufio"
-	"fmt"
+	"context"
 	"os"
-	"strings"
+	"os/signal"
+	"syscall"
 )
 
-func tokenize(reader *bufio.Reader, CreateTokenString func(string) string) {
-	fmt.Print("Enter your token: ")
+func Start(createTokenString func(string) string) {
+	printHello()
 
-	line, _ := reader.ReadString('\n')
-	word := strings.TrimSpace(line)
-
-	token := CreateTokenString(word)
-	fmt.Printf("Word '%s' is %s\n\n", word, token)
-}
-
-func Start(CreateTokenString func(string) string) {
-	fmt.Printf("Hello from Monkey!\n\n")
-
+	// Listen for interrupt signals to gracefully exit
 	reader := bufio.NewReader(os.Stdin)
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
 
 	for {
-		tokenize(reader, CreateTokenString)
+		// Read user input in a separate goroutine to allow for graceful shutdown
+		lineReady := make(chan string, 1)
+
+		// This goroutine will read a line from the console and send the result to the lineReady channel
+		go func() {
+			lineReady <- readLine(reader)
+		}()
+
+		printPrompt()
+
+		select {
+		// If the user sends an interrupt signal (e.g., Ctrl+C), we print a goodbye message and exit
+		case <-ctx.Done():
+			printGoodbye()
+			return
+
+			// If a line is ready from the console, we process it and print the corresponding token
+		case result := <-lineReady:
+			if result == "" {
+				printGoodbye()
+				return
+			}
+
+			// Actual work is done here
+			printToken(createTokenString, result)
+		}
 	}
 }
