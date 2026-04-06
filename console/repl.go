@@ -21,8 +21,8 @@ func readLine(reader *bufio.Reader) string {
 
 func printToken(createTokenString func(string) string, line string) {
 	word := strings.TrimSpace(line)
-	token := createTokenString(word)
-	fmt.Printf("Word '%s' is %s\n\n", word, token)
+	tok := createTokenString(word)
+	fmt.Printf("Word '%s' is %s\n\n", word, tok)
 }
 
 func printLexer(createLexerString func(string) string, line string) {

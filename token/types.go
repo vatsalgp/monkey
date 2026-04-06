@@ -14,8 +14,8 @@ type Token struct {
 	Literal string
 }
 
-func (token Token) String() string {
-	return "Token(" + string(token.Type) + ", '" + string(token.Literal) + "')"
+func (tok Token) String() string {
+	return "Token(" + string(tok.Type) + ", '" + string(tok.Literal) + "')"
 }
 
 func (spec Spec) String() string {
