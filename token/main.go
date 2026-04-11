@@ -14,13 +14,6 @@ func New(word string) Token {
 	return Token{Type: ILLEGAL.Type, Literal: word}
 }
 
-func NewB(byt byte) Token {
-	if byt == 0 {
-		return New(string(""))
-	}
-	return New(string(byt))
-}
-
 func NewString(word string) string {
 	return New(word).String()
 }

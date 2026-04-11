@@ -170,3 +170,22 @@ func TestNextToken(test *testing.T) {
 		}
 	}
 }
+
+func TestIterator(test *testing.T) {
+	for tn, tt := range TESTS {
+		lex := New(tt.input)
+
+		i := 0
+		for tok := range lex.All() {
+			expected := tt.tokens[i]
+			if tok.Type != expected.Type || tok.Literal != expected.Literal {
+				test.Fatalf("\ntests[%d][%d]\nexpected=%s\ngot=%s", tn+1, i+1, expected, tok)
+			}
+			i++
+		}
+
+		if i != len(tt.tokens)-1 {
+			test.Fatalf("\ntests[%d]\nexpected %d yielded tokens\ngot=%d", tn+1, len(tt.tokens)-1, i)
+		}
+	}
+}

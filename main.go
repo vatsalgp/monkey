@@ -7,5 +7,5 @@ import (
 )
 
 func main() {
-	console.Start(token.NewString, lexer.CreateLexerString)
+	console.Start(token.NewString, lexer.NewString)
 }

@@ -29,7 +29,6 @@ func printLexer(createLexerString func(string) string, line string) {
 	word := strings.TrimSpace(line)
 	lexer := createLexerString(word)
 	fmt.Println(lexer)
-	fmt.Println()
 }
 
 func printGoodbye() {
