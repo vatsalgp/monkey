@@ -17,7 +17,7 @@ var (
 
 	// LITERALS
 	INTEGER_LITERAL = Spec{Type: "INTEGER_LITERAL", Expression: `^\d+$`}
-	STRING_LITERAL  = Spec{Type: "STRING_LITERAL", Expression: `^\".*\"$`}
+	STRING_LITERAL  = Spec{Type: "STRING_LITERAL", Expression: `^\".*\"$`} // TODO: Handle string literals
 	FLOAT_LITERAL   = Spec{Type: "FLOAT_LITERAL", Expression: `^\d+\.\d+$`}
 
 	// BOOLEANS

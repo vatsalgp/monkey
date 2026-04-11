@@ -11,6 +11,7 @@ type Lexer struct {
 	currPos  int
 	nextPos  int
 	currChar byte
+	nextChar byte
 }
 
 func (lex *Lexer) readChar() {
@@ -19,28 +20,15 @@ func (lex *Lexer) readChar() {
 	} else {
 		lex.currChar = lex.input[lex.nextPos]
 	}
+
 	lex.currPos = lex.nextPos
 	lex.nextPos++
-}
 
-func isDigit(ch byte) bool {
-	return '0' <= ch && ch <= '9'
-}
-
-func isAlphabet(ch byte) bool {
-	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z'
-}
-
-func isPeriod(ch byte) bool {
-	return ch == '.'
-}
-
-func isUnderscore(ch byte) bool {
-	return ch == '_'
-}
-
-func isWhiteSpace(ch byte) bool {
-	return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r'
+	if lex.nextPos >= len(lex.input) {
+		lex.nextChar = 0
+	} else {
+		lex.nextChar = lex.input[lex.nextPos]
+	}
 }
 
 func (lex *Lexer) NextToken() token.Token {
@@ -49,9 +37,19 @@ func (lex *Lexer) NextToken() token.Token {
 	}
 
 	tok := token.NewB(lex.currChar)
-	if tok.Type == token.INTEGER_LITERAL.Type || tok.Type == token.IDENTIFIER.Type || tok.Type == token.ILLEGAL.Type {
-		start := lex.currPos
+	start := lex.currPos
 
+	if tok.Type == token.ASSIGN.Type || tok.Type == token.IS_LESS_THAN.Type || tok.Type == token.IS_GREATER_THAN.Type || tok.Type == token.NOT.Type {
+		if isEqual(lex.nextChar) {
+			lex.readChar()
+			lex.readChar()
+			end := lex.currPos
+			val := lex.input[start:end]
+			return token.New(val)
+		}
+	}
+
+	if tok.Type == token.INTEGER_LITERAL.Type || tok.Type == token.IDENTIFIER.Type || tok.Type == token.ILLEGAL.Type {
 		if isAlphabet(lex.currChar) || isUnderscore(lex.currChar) {
 			// Identifier or Keyword
 			for isAlphabet(lex.currChar) || isUnderscore(lex.currChar) || isDigit(lex.currChar) {
