@@ -23,9 +23,49 @@ func (lex *Lexer) readChar() {
 	lex.nextPos++
 }
 
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
+}
+
+func isAlphabet(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z'
+}
+
+func isUnderscore(ch byte) bool {
+	return ch == '_'
+}
+
+func isWhiteSpace(ch byte) bool {
+	return ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r'
+}
+
 func (lex *Lexer) NextToken() token.Token {
+	for isWhiteSpace(lex.currChar) {
+		lex.readChar()
+	}
+
 	tok := token.NewB(lex.currChar)
-	lex.readChar()
+	if tok.Type == token.INTEGER_LITERAL.Type || tok.Type == token.IDENTIFIER.Type || tok.Type == token.ILLEGAL.Type {
+		start := lex.currPos
+
+		if isAlphabet(lex.currChar) || isUnderscore(lex.currChar) {
+			// Identifier or Keyword
+			for isAlphabet(lex.currChar) || isUnderscore(lex.currChar) || isDigit(lex.currChar) {
+				lex.readChar()
+			}
+		} else if isDigit(lex.currChar) {
+			// Integer Literal
+			for isDigit(lex.currChar) {
+				lex.readChar()
+			}
+		}
+
+		end := lex.currPos
+		val := lex.input[start:end]
+		return token.New(val)
+	} else {
+		lex.readChar()
+	}
 	return tok
 }
 
