@@ -29,25 +29,45 @@ var (
 		},
 		{
 			input: `
-				let five = 5;
-				let ten = 10;
+				let five_ = 5;
+				let _TEN1 = 10;
+
+				let x = true;
+				let y = false;
+
+				let z = 5.7;
 
 				let add = fn(x, y) {
-					x + y;
+					return x + y;
 				};
 
-				let result = add(five, ten);
+				let result = add(five_, _TEN1);
 			`,
 			tokens: []token.Token{
 				{Type: token.LET.Type, Literal: "let"},
-				{Type: token.IDENTIFIER.Type, Literal: "five"},
+				{Type: token.IDENTIFIER.Type, Literal: "five_"},
 				{Type: token.ASSIGN.Type, Literal: "="},
 				{Type: token.INTEGER_LITERAL.Type, Literal: "5"},
 				{Type: token.SEMICOLON.Type, Literal: ";"},
 				{Type: token.LET.Type, Literal: "let"},
-				{Type: token.IDENTIFIER.Type, Literal: "ten"},
+				{Type: token.IDENTIFIER.Type, Literal: "_TEN1"},
 				{Type: token.ASSIGN.Type, Literal: "="},
 				{Type: token.INTEGER_LITERAL.Type, Literal: "10"},
+				{Type: token.SEMICOLON.Type, Literal: ";"},
+				{Type: token.LET.Type, Literal: "let"},
+				{Type: token.IDENTIFIER.Type, Literal: "x"},
+				{Type: token.ASSIGN.Type, Literal: "="},
+				{Type: token.TRUE.Type, Literal: "true"},
+				{Type: token.SEMICOLON.Type, Literal: ";"},
+				{Type: token.LET.Type, Literal: "let"},
+				{Type: token.IDENTIFIER.Type, Literal: "y"},
+				{Type: token.ASSIGN.Type, Literal: "="},
+				{Type: token.FALSE.Type, Literal: "false"},
+				{Type: token.SEMICOLON.Type, Literal: ";"},
+				{Type: token.LET.Type, Literal: "let"},
+				{Type: token.IDENTIFIER.Type, Literal: "z"},
+				{Type: token.ASSIGN.Type, Literal: "="},
+				{Type: token.FLOAT_LITERAL.Type, Literal: "5.7"},
 				{Type: token.SEMICOLON.Type, Literal: ";"},
 				{Type: token.LET.Type, Literal: "let"},
 				{Type: token.IDENTIFIER.Type, Literal: "add"},
@@ -59,6 +79,7 @@ var (
 				{Type: token.IDENTIFIER.Type, Literal: "y"},
 				{Type: token.RIGHT_PAREN.Type, Literal: ")"},
 				{Type: token.LEFT_BRACE.Type, Literal: "{"},
+				{Type: token.RETURN.Type, Literal: "return"},
 				{Type: token.IDENTIFIER.Type, Literal: "x"},
 				{Type: token.PLUS.Type, Literal: "+"},
 				{Type: token.IDENTIFIER.Type, Literal: "y"},
@@ -70,9 +91,9 @@ var (
 				{Type: token.ASSIGN.Type, Literal: "="},
 				{Type: token.IDENTIFIER.Type, Literal: "add"},
 				{Type: token.LEFT_PAREN.Type, Literal: "("},
-				{Type: token.IDENTIFIER.Type, Literal: "five"},
+				{Type: token.IDENTIFIER.Type, Literal: "five_"},
 				{Type: token.COMMA.Type, Literal: ","},
-				{Type: token.IDENTIFIER.Type, Literal: "ten"},
+				{Type: token.IDENTIFIER.Type, Literal: "_TEN1"},
 				{Type: token.RIGHT_PAREN.Type, Literal: ")"},
 				{Type: token.SEMICOLON.Type, Literal: ";"},
 				{Type: token.END_OF_FILE.Type, Literal: ""},

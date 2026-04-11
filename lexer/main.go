@@ -31,6 +31,10 @@ func isAlphabet(ch byte) bool {
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z'
 }
 
+func isPeriod(ch byte) bool {
+	return ch == '.'
+}
+
 func isUnderscore(ch byte) bool {
 	return ch == '_'
 }
@@ -53,9 +57,9 @@ func (lex *Lexer) NextToken() token.Token {
 			for isAlphabet(lex.currChar) || isUnderscore(lex.currChar) || isDigit(lex.currChar) {
 				lex.readChar()
 			}
-		} else if isDigit(lex.currChar) {
-			// Integer Literal
-			for isDigit(lex.currChar) {
+		} else if isDigit(lex.currChar) || isPeriod(lex.currChar) {
+			// Integer or Float Literal
+			for isDigit(lex.currChar) || isPeriod(lex.currChar) {
 				lex.readChar()
 			}
 		}
