@@ -33,42 +33,43 @@ func (lex *Lexer) eatWhiteSpace() {
 	}
 }
 
+func (lex *Lexer) readIdentifierOrLiteral() {
+	if isAlphabet(lex.currChar) || isUnderscore(lex.currChar) {
+		// Identifier or Keyword
+		for isAlphabet(lex.currChar) || isUnderscore(lex.currChar) || isDigit(lex.currChar) {
+			lex.readChar()
+		}
+	} else if isDigit(lex.currChar) || isPeriod(lex.currChar) {
+		// Integer Literal or Float Literal
+		for isDigit(lex.currChar) || isPeriod(lex.currChar) {
+			lex.readChar()
+		}
+	}
+}
+
+func (lex *Lexer) createToken(start int) token.Token {
+	return token.New(lex.input[start:lex.currPos])
+}
+
 func (lex *Lexer) NextToken() token.Token {
 	lex.eatWhiteSpace()
 
-	tok := token.New(string(lex.currChar))
 	start := lex.currPos
+	charTok := token.New(string(lex.currChar))
 
-	if tok.Type == token.ASSIGN.Type || tok.Type == token.IS_LESS_THAN.Type || tok.Type == token.IS_GREATER_THAN.Type || tok.Type == token.NOT.Type {
-		if isEqual(lex.peekChar()) {
-			lex.readChar()
-			lex.readChar()
-			end := lex.currPos
-			val := lex.input[start:end]
-			return token.New(val)
-		}
-	}
-
-	if tok.Type == token.INTEGER_LITERAL.Type || tok.Type == token.IDENTIFIER.Type || tok.Type == token.ILLEGAL.Type {
-		if isAlphabet(lex.currChar) || isUnderscore(lex.currChar) {
-			// Identifier or Keyword
-			for isAlphabet(lex.currChar) || isUnderscore(lex.currChar) || isDigit(lex.currChar) {
-				lex.readChar()
-			}
-		} else if isDigit(lex.currChar) || isPeriod(lex.currChar) {
-			// Integer or Float Literal
-			for isDigit(lex.currChar) || isPeriod(lex.currChar) {
-				lex.readChar()
-			}
-		}
-
-		end := lex.currPos
-		val := lex.input[start:end]
-		return token.New(val)
-	} else {
+	if isComparitorStart(charTok.Type) && isEqual(lex.peekChar()) {
+		lex.readChar() // For peeked char
 		lex.readChar()
+		return lex.createToken(start)
 	}
-	return tok
+
+	if isIdentifierOrLiteralStart(charTok.Type) {
+		lex.readIdentifierOrLiteral()
+		return lex.createToken(start)
+	}
+
+	lex.readChar()
+	return charTok
 }
 
 // Yields tokens until END_OF_FILE.
