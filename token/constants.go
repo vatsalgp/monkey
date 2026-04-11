@@ -8,6 +8,8 @@ var (
 	// KEYWORDS
 	LET      = Spec{Type: "LET", Expression: `^let$`}
 	FUNCTION = Spec{Type: "FUNCTION", Expression: `^fn$`}
+	IF       = Spec{Type: "IF", Expression: `^if$`}
+	ELSE     = Spec{Type: "ELSE", Expression: `^else$`}
 	RETURN   = Spec{Type: "RETURN", Expression: `^return$`}
 
 	// IDENTIFIERS
@@ -28,6 +30,7 @@ var (
 	MULTIPLY = Spec{Type: "MULTIPLY", Expression: `^\*$`}
 	DIVIDE   = Spec{Type: "DIVIDE", Expression: `^/$`}
 	ASSIGN   = Spec{Type: "ASSIGN", Expression: `^=$`}
+	NOT      = Spec{Type: "NOT", Expression: `^!$`}
 
 	// COMPARISON OPERATORS
 	IS_EQUAL                 = Spec{Type: "IS_EQUAL", Expression: `^==$`}
@@ -52,12 +55,15 @@ var (
 		END_OF_FILE,
 		LET,
 		FUNCTION,
+		IF,
+		ELSE,
 		RETURN,
 		PLUS,
 		MINUS,
 		MULTIPLY,
 		DIVIDE,
 		ASSIGN,
+		NOT,
 		IS_EQUAL,
 		IS_NOT_EQUAL,
 		IS_LESS_THAN,

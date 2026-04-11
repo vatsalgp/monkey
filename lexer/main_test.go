@@ -29,7 +29,7 @@ var (
 		},
 		{
 			input: `
-				let five_ = 5;
+				let five_=5;
 				let _TEN1 = 10;
 
 				let x = true;
@@ -95,6 +95,61 @@ var (
 				{Type: token.COMMA.Type, Literal: ","},
 				{Type: token.IDENTIFIER.Type, Literal: "_TEN1"},
 				{Type: token.RIGHT_PAREN.Type, Literal: ")"},
+				{Type: token.SEMICOLON.Type, Literal: ";"},
+				{Type: token.END_OF_FILE.Type, Literal: ""},
+			},
+		},
+		{
+			input: `
+				!-/*5;
+				5 < 10 > 5;
+
+				if (5 < 10) {
+					return true;
+				} else {
+					return false;
+				}
+
+				10 == 10;
+				10 != 9;
+			`,
+			tokens: []token.Token{
+				{Type: token.NOT.Type, Literal: "!"},
+				{Type: token.MINUS.Type, Literal: "-"},
+				{Type: token.DIVIDE.Type, Literal: "/"},
+				{Type: token.MULTIPLY.Type, Literal: "*"},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "5"},
+				{Type: token.SEMICOLON.Type, Literal: ";"},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "5"},
+				{Type: token.IS_LESS_THAN.Type, Literal: "<"},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "10"},
+				{Type: token.IS_GREATER_THAN.Type, Literal: ">"},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "5"},
+				{Type: token.SEMICOLON.Type, Literal: ";"},
+				{Type: token.IF.Type, Literal: "if"},
+				{Type: token.LEFT_PAREN.Type, Literal: "("},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "5"},
+				{Type: token.IS_LESS_THAN.Type, Literal: "<"},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "10"},
+				{Type: token.RIGHT_PAREN.Type, Literal: ")"},
+				{Type: token.LEFT_BRACE.Type, Literal: "{"},
+				{Type: token.RETURN.Type, Literal: "return"},
+				{Type: token.TRUE.Type, Literal: "true"},
+				{Type: token.SEMICOLON.Type, Literal: ";"},
+				{Type: token.RIGHT_BRACE.Type, Literal: "}"},
+				{Type: token.ELSE.Type, Literal: "else"},
+				{Type: token.LEFT_BRACE.Type, Literal: "{"},
+				{Type: token.RETURN.Type, Literal: "return"},
+				{Type: token.FALSE.Type, Literal: "false"},
+				{Type: token.SEMICOLON.Type, Literal: ";"},
+				{Type: token.RIGHT_BRACE.Type, Literal: "}"},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "10"},
+				{Type: token.IS_EQUAL.Type, Literal: "=="},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "10"},
+				{Type: token.SEMICOLON.Type, Literal: ";"},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "10"},
+				{Type: token.IS_NOT_EQUAL.Type, Literal: "!="},
+				{Type: token.INTEGER_LITERAL.Type, Literal: "9"},
 				{Type: token.SEMICOLON.Type, Literal: ";"},
 				{Type: token.END_OF_FILE.Type, Literal: ""},
 			},
