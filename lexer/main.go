@@ -78,13 +78,22 @@ func New(input string) *Lexer {
 }
 
 func CreateLexerString(line string) string {
-	words := strings.Fields(line)
+	lex := New(line)
+	tokens := []token.Token{}
 
-	tokens := make([]string, len(words))
-
-	for i, word := range words {
-		tokens[i] = token.NewString(word)
+	for {
+		tok := lex.NextToken()
+		if tok.Type == token.END_OF_FILE.Type {
+			break
+		}
+		tokens = append(tokens, tok)
 	}
 
-	return strings.Join(tokens, "\n")
+	results := make([]string, len(tokens))
+
+	for i, word := range tokens {
+		results[i] = word.String()
+	}
+
+	return strings.Join(results, "\n")
 }
