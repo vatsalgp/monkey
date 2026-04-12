@@ -41,7 +41,7 @@ func printMenu() {
 	fmt.Println("1. Tokenizeing")
 	fmt.Println("2. Lexing")
 	fmt.Println("0. Exit")
-	fmt.Println("Press Ctrl+C to exit")
+	fmt.Println("Press Ctrl+D to exit")
 	fmt.Println()
 	fmt.Println("Enter (0-2) to select an option:")
 }

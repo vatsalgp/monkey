@@ -57,7 +57,7 @@ func Start(createTokenString func(string) string, createLexerString func(string)
 		}()
 
 		select {
-		// If the user sends an interrupt signal (e.g., Ctrl+C), we print a goodbye message and exit
+		// If the user sends an interrupt signal (e.g., Ctrl+D), we print a goodbye message and exit
 		case <-ctx.Done():
 			printGoodbye()
 			return
