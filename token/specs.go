@@ -17,8 +17,8 @@ var (
 
 	// LITERALS
 	INTEGER_LITERAL = Spec{Type: "INTEGER_LITERAL", Expression: `^\d+$`}
-	STRING_LITERAL  = Spec{Type: "STRING_LITERAL", Expression: `^\".*\"$`} // TODO: Handle string literals
-	FLOAT_LITERAL   = Spec{Type: "FLOAT_LITERAL", Expression: `^\d+\.\d+$`}
+	// STRING_LITERAL  = Spec{Type: "STRING_LITERAL", Expression: `^\".*\"$`} // TODO: Handle string literals
+	FLOAT_LITERAL = Spec{Type: "FLOAT_LITERAL", Expression: `^\d+\.\d+$`}
 
 	// BOOLEANS
 	TRUE  = Spec{Type: "TRUE", Expression: `^true$`}
@@ -80,7 +80,7 @@ var (
 		FALSE,
 		INTEGER_LITERAL,
 		FLOAT_LITERAL,
-		STRING_LITERAL,
+		// STRING_LITERAL,
 		IDENTIFIER,
 		ILLEGAL,
 	}
