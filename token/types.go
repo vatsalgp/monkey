@@ -14,10 +14,10 @@ type Token struct {
 	Literal string
 }
 
-func (tok Token) String() string {
+func (tok *Token) String() string {
 	return "Token(" + string(tok.Type) + ", '" + string(tok.Literal) + "')"
 }
 
-func (spec Spec) String() string {
+func (spec *Spec) String() string {
 	return "Spec(" + string(spec.Type) + ", '" + string(spec.Expression) + "')"
 }

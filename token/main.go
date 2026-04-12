@@ -15,5 +15,6 @@ func New(word string) Token {
 }
 
 func NewString(word string) string {
-	return New(word).String()
+	tok := New(word)
+	return tok.String()
 }
