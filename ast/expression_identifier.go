@@ -1,4 +1,4 @@
-package expressions
+package ast
 
 import (
 	"github.com/vatsalgp/monkey/token"
