@@ -47,11 +47,11 @@ func (lex *Lexer) readIdentifierOrLiteral() {
 	}
 }
 
-func (lex *Lexer) createToken(start int) token.Token {
+func (lex *Lexer) createToken(start int) *token.Token {
 	return token.New(lex.input[start:lex.currPos])
 }
 
-func (lex *Lexer) NextToken() token.Token {
+func (lex *Lexer) NextToken() *token.Token {
 	lex.eatWhiteSpace()
 
 	start := lex.currPos
@@ -73,8 +73,8 @@ func (lex *Lexer) NextToken() token.Token {
 }
 
 // Yields tokens until END_OF_FILE.
-func (lex *Lexer) All() iter.Seq[token.Token] {
-	return func(yield func(token.Token) bool) {
+func (lex *Lexer) All() iter.Seq[*token.Token] {
+	return func(yield func(*token.Token) bool) {
 		for {
 			tok := lex.NextToken()
 
