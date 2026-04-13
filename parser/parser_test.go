@@ -21,9 +21,9 @@ func TestLetStatements(t *testing.T) {
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
 	}
-	if len(*program.Statements) != 3 {
+	if len(program.Statements) != 3 {
 		t.Fatalf("program.Statements does not contain 3 statements. got=%d",
-			len(*program.Statements))
+			len(program.Statements))
 	}
 
 	tests := []struct {
@@ -35,23 +35,23 @@ func TestLetStatements(t *testing.T) {
 	}
 
 	for i, tt := range tests {
-		stmt := (*program.Statements)[i]
+		stmt := (program.Statements)[i]
 		if !testLetStatement(t, stmt, tt.expectedIdentifier) {
 			return
 		}
 	}
 }
 
-func testLetStatement(t *testing.T, s *ast.Statement, name string) bool {
-	if (*s).TokenLiteral() != "let" {
-		t.Errorf("s.TokenLiteral not 'let'. got=%q", (*s).TokenLiteral())
+func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
+	if s.TokenLiteral() != "let" {
+		t.Errorf("s.TokenLiteral not 'let'. got=%q", s.TokenLiteral())
 		return false
 	}
 
-	letStmt, ok := (*s).(*ast.LetStatement)
+	letStmt, ok := s.(*ast.LetStatement)
 
 	if !ok {
-		t.Errorf("*s not *ast.LetStatement. got=%T", *s)
+		t.Errorf("s not *ast.LetStatement. got=%T", s)
 		return false
 	}
 
