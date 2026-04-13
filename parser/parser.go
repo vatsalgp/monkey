@@ -12,7 +12,7 @@ type Parser struct {
 	peekTok *token.Token
 }
 
-func (p *Parser) AdvanceToken() {
+func (p *Parser) advanceToken() {
 	p.currTok = p.peekTok
 	p.peekTok = p.lex.NextToken()
 }
@@ -35,12 +35,9 @@ func (p *Parser) peekTokType() token.Type {
 
 func (p *Parser) ParseProgram() *ast.Program {
 	program := &ast.Program{}
+	program.Statements = []ast.Statement{}
 
-	for {
-		if p.currTokType() == token.END_OF_FILE.Type {
-			break
-		}
-
+	for p.currTokType() != token.END_OF_FILE.Type {
 		if p.currTokType() == token.LET.Type {
 			letStmt := p.parseLetStmt()
 			program.Statements = append(program.Statements, letStmt)
@@ -52,14 +49,14 @@ func (p *Parser) ParseProgram() *ast.Program {
 
 func (p *Parser) parseLetToken() *token.Token {
 	letToken := &token.Token{Type: token.LET.Type, Literal: "let"}
-	p.AdvanceToken()
+	p.advanceToken()
 	return letToken
 }
 
 func (p *Parser) parseIdentifier() *ast.Identifier {
 	tok := &token.Token{Type: token.IDENTIFIER.Type, Literal: p.currTok.Literal}
 	iden := &ast.Identifier{Token: tok, Value: p.currTok.Literal}
-	p.AdvanceToken()
+	p.advanceToken()
 	return iden
 }
 
@@ -73,7 +70,7 @@ func (p *Parser) parseLetStmt() *ast.LetStatement {
 	letStmt.Name = p.parseIdentifier()
 
 	// =
-	p.AdvanceToken()
+	p.advanceToken()
 
 	// (y)
 	letStmt.Value = p.parseExpression()
@@ -88,7 +85,7 @@ func (p *Parser) parseExpression() ast.Expression {
 		iden := p.parseIdentifier()
 
 		// ;
-		p.AdvanceToken()
+		p.advanceToken()
 
 		return iden
 	}
@@ -97,11 +94,11 @@ func (p *Parser) parseExpression() ast.Expression {
 		if p.currTokType() == token.SEMICOLON.Type {
 			break
 		}
-		p.AdvanceToken()
+		p.advanceToken()
 	}
 
 	// ;
-	p.AdvanceToken()
+	p.advanceToken()
 
 	return nil
 }

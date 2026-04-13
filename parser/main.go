@@ -7,8 +7,8 @@ import (
 func New(lex *lexer.Lexer) *Parser {
 	p := &Parser{lex: lex}
 
-	p.AdvanceToken() // Set peekTok
-	p.AdvanceToken() // Set currTok
+	p.advanceToken() // Set peekTok
+	p.advanceToken() // Set currTok
 
 	return p
 }
