@@ -10,8 +10,8 @@ type Identifier struct {
 	Value string       // 0
 }
 
-func (ident *Identifier) TokenLiteral() string {
+func (ident Identifier) TokenLiteral() string {
 	return ident.Token.Literal
 }
 
-func (ident *Identifier) expressionNode() {}
+func (ident Identifier) expressionNode() {}
