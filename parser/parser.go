@@ -17,17 +17,31 @@ func (p *Parser) AdvanceToken() {
 	p.peekTok = p.lex.NextToken()
 }
 
+func (p *Parser) currTokType() token.Type {
+	if p.currTok == nil {
+		return token.END_OF_FILE.Type
+	}
+	return p.currTok.Type
+}
+
+func (p *Parser) peekTokType() token.Type {
+	if p.peekTok == nil {
+		return token.END_OF_FILE.Type
+	}
+	return p.peekTok.Type
+}
+
 // TODO: Handle errors: Empty token or incorrect token
 
 func (p *Parser) ParseProgram() *ast.Program {
 	var program = &ast.Program{}
 
 	for {
-		if p.currTok == nil || p.currTok.Type == token.END_OF_FILE.Type {
+		if p.currTokType() == token.END_OF_FILE.Type {
 			break
 		}
 
-		if p.currTok.Type == token.LET.Type {
+		if p.currTokType() == token.LET.Type {
 			var letStmt = p.parseLetStmt()
 			program.Statements = append(program.Statements, letStmt)
 		}
@@ -70,7 +84,7 @@ func (p *Parser) parseLetStmt() *ast.LetStatement {
 func (p *Parser) parseExpression() ast.Expression {
 	// TODO: Parse Literal
 
-	if p.currTok.Type == token.IDENTIFIER.Type && p.peekTok.Type == token.SEMICOLON.Type {
+	if p.currTokType() == token.IDENTIFIER.Type && p.peekTokType() == token.SEMICOLON.Type {
 		iden := p.parseIdentifier()
 
 		// ;
@@ -80,7 +94,7 @@ func (p *Parser) parseExpression() ast.Expression {
 	}
 
 	for {
-		if p.currTok.Type == token.SEMICOLON.Type {
+		if p.currTokType() == token.SEMICOLON.Type {
 			break
 		}
 		p.AdvanceToken()
