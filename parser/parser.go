@@ -38,24 +38,33 @@ func (p *Parser) ParseProgram() *ast.Program {
 	program.Statements = []ast.Statement{}
 
 	for p.currTokType() != token.END_OF_FILE.Type {
-		if p.currTokType() == token.LET.Type {
-			letStmt := p.parseLetStmt()
-			program.Statements = append(program.Statements, letStmt)
+		stmt := p.parseStatement()
+		if stmt == nil {
+			continue
 		}
+		program.Statements = append(program.Statements, stmt)
 	}
 
 	return program
 }
 
+func (p *Parser) parseStatement() ast.Statement {
+	switch p.currTokType() {
+	case token.LET.Type:
+		return p.parseLetStmt()
+	default:
+		return nil
+	}
+}
+
 func (p *Parser) parseLetToken() *token.Token {
-	letToken := &token.Token{Type: token.LET.Type, Literal: "let"}
+	tok := p.currTok
 	p.advanceToken()
-	return letToken
+	return tok
 }
 
 func (p *Parser) parseIdentifier() *ast.Identifier {
-	tok := &token.Token{Type: token.IDENTIFIER.Type, Literal: p.currTok.Literal}
-	iden := &ast.Identifier{Token: tok, Value: p.currTok.Literal}
+	iden := &ast.Identifier{Token: p.currTok, Value: p.currTok.Literal}
 	p.advanceToken()
 	return iden
 }
@@ -90,10 +99,7 @@ func (p *Parser) parseExpression() ast.Expression {
 		return iden
 	}
 
-	for {
-		if p.currTokType() == token.SEMICOLON.Type {
-			break
-		}
+	for p.currTokType() != token.SEMICOLON.Type {
 		p.advanceToken()
 	}
 
