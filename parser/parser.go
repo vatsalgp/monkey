@@ -34,7 +34,7 @@ func (p *Parser) peekTokType() token.Type {
 // TODO: Handle errors: Empty token or incorrect token
 
 func (p *Parser) ParseProgram() *ast.Program {
-	var program = &ast.Program{}
+	program := &ast.Program{}
 
 	for {
 		if p.currTokType() == token.END_OF_FILE.Type {
@@ -42,7 +42,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 		}
 
 		if p.currTokType() == token.LET.Type {
-			var letStmt = p.parseLetStmt()
+			letStmt := p.parseLetStmt()
 			program.Statements = append(program.Statements, letStmt)
 		}
 	}
@@ -64,7 +64,7 @@ func (p *Parser) parseIdentifier() *ast.Identifier {
 }
 
 func (p *Parser) parseLetStmt() *ast.LetStatement {
-	var letStmt = &ast.LetStatement{}
+	letStmt := &ast.LetStatement{}
 
 	// let
 	letStmt.Token = p.parseLetToken()

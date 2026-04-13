@@ -10,7 +10,7 @@ type Program struct {
 }
 
 func (prog *Program) TokenLiteral() string {
-	var sb strings.Builder
+	sb := strings.Builder{}
 
 	for _, stat := range prog.Statements {
 		sb.WriteString(stat.TokenLiteral())
