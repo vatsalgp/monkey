@@ -8,6 +8,24 @@ import (
 	"github.com/vatsalgp/monkey/lexer"
 )
 
+func TestIncorrectStatement(t *testing.T) {
+	input := `
+		a = 6;
+	`
+
+	l := lexer.New(input)
+	p := New(l)
+
+	p.ParseProgram()
+	errors := p.Errors()
+
+	fmt.Printf("parser has %d errors\n", len(errors))
+
+	for _, msg := range errors {
+		fmt.Printf("parser error: %q\n", msg)
+	}
+}
+
 func TestCorrectLetStatements(t *testing.T) {
 	input := `
 		let x = 5;
@@ -64,34 +82,6 @@ func TestIncorrectLetStatements(t *testing.T) {
 		fmt.Printf("parser error: %q\n", msg)
 	}
 }
-
-func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
-	if s.TokenLiteral() != "let" {
-		t.Errorf("s.TokenLiteral not 'let'. got=%q", s.TokenLiteral())
-		return false
-	}
-
-	letStmt, ok := s.(*ast.LetStatement)
-
-	if !ok {
-		t.Errorf("s not *ast.LetStatement. got=%T", s)
-		return false
-	}
-
-	if letStmt.Name.Value != name {
-		t.Errorf("letStmt.Name.Value not '%s'. got=%s", name, letStmt.Name.Value)
-		return false
-	}
-
-	if letStmt.Name.TokenLiteral() != name {
-		t.Errorf("letStmt.Name.TokenLiteral() not '%s'. got=%s",
-			name, letStmt.Name.TokenLiteral())
-		return false
-	}
-
-	return true
-}
-
 func TestReturnStatements(t *testing.T) {
 	input := `
 		return 5;
@@ -121,6 +111,33 @@ func TestReturnStatements(t *testing.T) {
 				returnStmt.TokenLiteral())
 		}
 	}
+}
+
+func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
+	if s.TokenLiteral() != "let" {
+		t.Errorf("s.TokenLiteral not 'let'. got=%q", s.TokenLiteral())
+		return false
+	}
+
+	letStmt, ok := s.(*ast.LetStatement)
+
+	if !ok {
+		t.Errorf("s not *ast.LetStatement. got=%T", s)
+		return false
+	}
+
+	if letStmt.Name.Value != name {
+		t.Errorf("letStmt.Name.Value not '%s'. got=%s", name, letStmt.Name.Value)
+		return false
+	}
+
+	if letStmt.Name.TokenLiteral() != name {
+		t.Errorf("letStmt.Name.TokenLiteral() not '%s'. got=%s",
+			name, letStmt.Name.TokenLiteral())
+		return false
+	}
+
+	return true
 }
 
 func checkParserErrors(t *testing.T, p *Parser) {
