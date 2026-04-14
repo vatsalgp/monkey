@@ -20,3 +20,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 
 	return program
 }
+
+func (p *Parser) Errors() []string {
+	return p.errors
+}

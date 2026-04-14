@@ -37,18 +37,10 @@ func (p *Parser) expectTokType(tokType token.Type) bool {
 	if p.currTokType() == tokType {
 		return true
 	}
-	p.logTypeError(tokType)
+	p.logError(fmt.Sprintf("expected token to be %s, got %s instead", tokType, p.currTokType()))
 	return false
-}
-
-func (p *Parser) Errors() []string {
-	return p.errors
 }
 
 func (p *Parser) logError(msg string) {
 	p.errors = append(p.errors, msg)
-}
-
-func (p *Parser) logTypeError(tok token.Type) {
-	p.logError(fmt.Sprintf("expected token to be %s, got %s instead", tok, p.currTokType()))
 }
