@@ -25,6 +25,8 @@ func (p *Parser) parseStatement() ast.Statement {
 	switch p.currTokType() {
 	case token.LET.Type:
 		return p.parseLetStmt()
+	case token.RETURN.Type:
+		return p.parseReturnStmt()
 	default:
 		p.logError("Expected Valid Statement")
 		return nil
@@ -33,6 +35,15 @@ func (p *Parser) parseStatement() ast.Statement {
 
 func (p *Parser) parseLetToken() *token.Token {
 	if !p.expectTokType(token.LET.Type) {
+		return nil
+	}
+	tok := p.currTok
+	p.advanceToken()
+	return tok
+}
+
+func (p *Parser) parseReturnToken() *token.Token {
+	if !p.expectTokType(token.RETURN.Type) {
 		return nil
 	}
 	tok := p.currTok
@@ -84,6 +95,20 @@ func (p *Parser) parseLetStmt() *ast.LetStatement {
 	letStmt.Value = expr
 
 	return letStmt
+}
+
+func (p *Parser) parseReturnStmt() *ast.ReturnStatement {
+	returnStmt := &ast.ReturnStatement{}
+
+	// return
+	returnToken := p.parseReturnToken()
+	returnStmt.Token = returnToken
+
+	// (y)
+	expr := p.parseExpression()
+	returnStmt.ReturnValue = expr
+
+	return returnStmt
 }
 
 func (p *Parser) parseExpression() ast.Expression {
