@@ -5,8 +5,6 @@ import (
 	"github.com/vatsalgp/monkey/token"
 )
 
-// TODO: Handle errors: Empty token or incorrect token
-
 func (p *Parser) ParseProgram() *ast.Program {
 	program := &ast.Program{}
 	program.Statements = []ast.Statement{}
@@ -14,7 +12,7 @@ func (p *Parser) ParseProgram() *ast.Program {
 	for p.currTokType() != token.END_OF_FILE.Type {
 		stmt := p.parseStatement()
 		if stmt == nil {
-			// p.logError("Expected Statement"); // Needed?
+			// End parsing since we don't know how much to advance
 			break
 		}
 		program.Statements = append(program.Statements, stmt)
@@ -72,30 +70,17 @@ func (p *Parser) parseLetStmt() *ast.LetStatement {
 
 	// let
 	letToken := p.parseLetToken()
-	if letToken == nil {
-		return nil
-	}
 	letStmt.Token = letToken
 
 	// x
 	iden := p.parseIdentifier()
-	if iden == nil {
-		return nil
-	}
 	letStmt.Name = iden
 
 	// =
-	isAssign := p.parseAssign()
-	if !isAssign {
-		return nil
-	}
+	p.parseAssign()
 
 	// (y)
 	expr := p.parseExpression()
-	// TODO: Do Expr error handling when expr code is done
-	// if expr == nil {
-	// 	return nil
-	// }
 	letStmt.Value = expr
 
 	return letStmt
@@ -106,15 +91,8 @@ func (p *Parser) parseExpression() ast.Expression {
 
 	if p.currTokType() == token.IDENTIFIER.Type && p.peekTokType() == token.SEMICOLON.Type {
 		iden := p.parseIdentifier()
-		if iden == nil {
-			return nil
-		}
 
-		// ;
-		isSemi := p.parseSemi()
-		if !isSemi {
-			return nil
-		}
+		p.parseSemi()
 
 		return iden
 	}
@@ -123,11 +101,7 @@ func (p *Parser) parseExpression() ast.Expression {
 		p.advanceToken()
 	}
 
-	// ;
-	isSemi := p.parseSemi()
-	if !isSemi {
-		return nil
-	}
+	p.parseSemi()
 
 	return nil
 }
