@@ -11,8 +11,8 @@ type LetStatement struct {
 	Value Expression   // 5
 }
 
-func (ls LetStatement) TokenLiteral() string {
+func (ls *LetStatement) TokenLiteral() string {
 	return ls.Token.Literal
 }
 
-func (ls LetStatement) statementNode() {}
+func (ls *LetStatement) statementNode() {}
