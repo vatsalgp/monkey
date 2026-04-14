@@ -63,7 +63,8 @@ func (p *Parser) ParseProgram() *ast.Program {
 	for p.currTokType() != token.END_OF_FILE.Type {
 		stmt := p.parseStatement()
 		if stmt == nil {
-			continue
+			// p.logError("Expected Statement"); // Needed?
+			break
 		}
 		program.Statements = append(program.Statements, stmt)
 	}
@@ -77,14 +78,12 @@ func (p *Parser) parseStatement() ast.Statement {
 		return p.parseLetStmt()
 	default:
 		p.logError("Expected Valid Statement")
-		p.advanceToken()
 		return nil
 	}
 }
 
 func (p *Parser) parseLetToken() *token.Token {
 	if !p.expectCurrTokType(token.LET.Type) {
-		p.advanceToken()
 		return nil
 	}
 	tok := p.currTok
@@ -94,7 +93,6 @@ func (p *Parser) parseLetToken() *token.Token {
 
 func (p *Parser) parseIdentifier() *ast.Identifier {
 	if !p.expectCurrTokType(token.IDENTIFIER.Type) {
-		p.advanceToken()
 		return nil
 	}
 	iden := &ast.Identifier{Token: p.currTok, Value: p.currTok.Literal}
@@ -104,7 +102,14 @@ func (p *Parser) parseIdentifier() *ast.Identifier {
 
 func (p *Parser) parseAssign() bool {
 	if !p.expectCurrTokType(token.ASSIGN.Type) {
-		p.advanceToken()
+		return false
+	}
+	p.advanceToken()
+	return true
+}
+
+func (p *Parser) parseSemi() bool {
+	if !p.expectCurrTokType(token.SEMICOLON.Type) {
 		return false
 	}
 	p.advanceToken()
@@ -115,16 +120,32 @@ func (p *Parser) parseLetStmt() *ast.LetStatement {
 	letStmt := &ast.LetStatement{}
 
 	// let
-	letStmt.Token = p.parseLetToken()
+	letToken := p.parseLetToken()
+	if letToken == nil {
+		return nil
+	}
+	letStmt.Token = letToken
 
 	// x
-	letStmt.Name = p.parseIdentifier()
+	iden := p.parseIdentifier()
+	if iden == nil {
+		return nil
+	}
+	letStmt.Name = iden
 
 	// =
-	p.parseAssign()
+	isAssign := p.parseAssign()
+	if !isAssign {
+		return nil
+	}
 
 	// (y)
-	letStmt.Value = p.parseExpression()
+	expr := p.parseExpression()
+	// TODO: Do Expr error handling when expr code is done
+	// if expr == nil {
+	// 	return nil
+	// }
+	letStmt.Value = expr
 
 	return letStmt
 }
@@ -134,9 +155,15 @@ func (p *Parser) parseExpression() ast.Expression {
 
 	if p.currTokType() == token.IDENTIFIER.Type && p.peekTokType() == token.SEMICOLON.Type {
 		iden := p.parseIdentifier()
+		if iden == nil {
+			return nil
+		}
 
 		// ;
-		p.advanceToken()
+		isSemi := p.parseSemi()
+		if !isSemi {
+			return nil
+		}
 
 		return iden
 	}
@@ -146,7 +173,10 @@ func (p *Parser) parseExpression() ast.Expression {
 	}
 
 	// ;
-	p.advanceToken()
+	isSemi := p.parseSemi()
+	if !isSemi {
+		return nil
+	}
 
 	return nil
 }
