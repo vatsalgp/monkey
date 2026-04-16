@@ -9,7 +9,7 @@ type Program struct {
 	Statements []Statement
 }
 
-func (prog *Program) TokenLiteral() string {
+func (prog *Program) FirstTokenLiteral() string {
 	if len(prog.Statements) == 0 {
 		return ""
 	}

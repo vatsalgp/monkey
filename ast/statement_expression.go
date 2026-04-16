@@ -12,7 +12,7 @@ type ExpressionStatement struct {
 	Expression Expression   // x+5
 }
 
-func (es *ExpressionStatement) TokenLiteral() string {
+func (es *ExpressionStatement) FirstTokenLiteral() string {
 	return es.Token.Literal
 }
 

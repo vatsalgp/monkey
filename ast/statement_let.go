@@ -13,12 +13,12 @@ type LetStatement struct {
 	Value Expression   // 5
 }
 
-func (ls *LetStatement) TokenLiteral() string {
+func (ls *LetStatement) FirstTokenLiteral() string {
 	return ls.Token.Literal
 }
 
 func (ls *LetStatement) statementNode() {}
 
 func (ls *LetStatement) String() string {
-	return fmt.Sprintf("%s %s = %s;", ls.TokenLiteral(), ls.Name.TokenLiteral(), ls.Value.String())
+	return fmt.Sprintf("%s %s = %s;", ls.FirstTokenLiteral(), ls.Name.FirstTokenLiteral(), ls.Value.String())
 }

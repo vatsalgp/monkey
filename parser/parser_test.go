@@ -106,16 +106,16 @@ func TestReturnStatements(t *testing.T) {
 			t.Errorf("stmt not *ast.ReturnStatement. got=%T", stmt)
 			continue
 		}
-		if returnStmt.TokenLiteral() != "return" {
-			t.Errorf("returnStmt.TokenLiteral not 'return', got %q",
-				returnStmt.TokenLiteral())
+		if returnStmt.FirstTokenLiteral() != "return" {
+			t.Errorf("returnStmt.FirstTokenLiteral not 'return', got %q",
+				returnStmt.FirstTokenLiteral())
 		}
 	}
 }
 
 func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
-	if s.TokenLiteral() != "let" {
-		t.Errorf("s.TokenLiteral not 'let'. got=%q", s.TokenLiteral())
+	if s.FirstTokenLiteral() != "let" {
+		t.Errorf("s.FirstTokenLiteral not 'let'. got=%q", s.FirstTokenLiteral())
 		return false
 	}
 
@@ -131,9 +131,9 @@ func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 		return false
 	}
 
-	if letStmt.Name.TokenLiteral() != name {
-		t.Errorf("letStmt.Name.TokenLiteral() not '%s'. got=%s",
-			name, letStmt.Name.TokenLiteral())
+	if letStmt.Name.FirstTokenLiteral() != name {
+		t.Errorf("letStmt.Name.FirstTokenLiteral() not '%s'. got=%s",
+			name, letStmt.Name.FirstTokenLiteral())
 		return false
 	}
 

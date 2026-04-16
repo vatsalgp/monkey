@@ -10,7 +10,7 @@ type Identifier struct {
 	Value string       // 0
 }
 
-func (ident *Identifier) TokenLiteral() string {
+func (ident *Identifier) FirstTokenLiteral() string {
 	return ident.Token.Literal
 }
 

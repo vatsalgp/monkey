@@ -12,12 +12,12 @@ type ReturnStatement struct {
 	ReturnValue Expression   // 5+5
 }
 
-func (rs *ReturnStatement) TokenLiteral() string {
+func (rs *ReturnStatement) FirstTokenLiteral() string {
 	return rs.Token.Literal
 }
 
 func (rs *ReturnStatement) statementNode() {}
 
 func (rs *ReturnStatement) String() string {
-	return fmt.Sprintf("%s %s;", rs.TokenLiteral(), rs.ReturnValue.String())
+	return fmt.Sprintf("%s %s;", rs.FirstTokenLiteral(), rs.ReturnValue.String())
 }
