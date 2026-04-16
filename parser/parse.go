@@ -6,8 +6,7 @@ import (
 )
 
 func (p *Parser) ParseProgram() *ast.Program {
-	program := &ast.Program{}
-	program.Statements = []ast.Statement{}
+	program := ast.NewProgram()
 
 	for p.currTokType() != token.END_OF_FILE.Type {
 		stmt := p.parseStatement()

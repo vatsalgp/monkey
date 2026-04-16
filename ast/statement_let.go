@@ -1,6 +1,8 @@
 package ast
 
 import (
+	"fmt"
+
 	"github.com/vatsalgp/monkey/token"
 )
 
@@ -16,3 +18,7 @@ func (ls *LetStatement) TokenLiteral() string {
 }
 
 func (ls *LetStatement) statementNode() {}
+
+func (ls *LetStatement) String() string {
+	return fmt.Sprintf("%s %s = %s;", ls.TokenLiteral(), ls.Name.TokenLiteral(), ls.Value.String())
+}

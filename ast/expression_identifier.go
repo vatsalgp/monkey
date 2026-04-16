@@ -15,3 +15,7 @@ func (ident *Identifier) TokenLiteral() string {
 }
 
 func (ident *Identifier) expressionNode() {}
+
+func (ident *Identifier) String() string {
+	return ident.Value
+}

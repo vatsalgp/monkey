@@ -1,6 +1,8 @@
 package ast
 
 import (
+	"fmt"
+
 	"github.com/vatsalgp/monkey/token"
 )
 
@@ -15,3 +17,7 @@ func (rs *ReturnStatement) TokenLiteral() string {
 }
 
 func (rs *ReturnStatement) statementNode() {}
+
+func (rs *ReturnStatement) String() string {
+	return fmt.Sprintf("%s %s;", rs.TokenLiteral(), rs.ReturnValue.String())
+}

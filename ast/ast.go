@@ -2,7 +2,8 @@ package ast
 
 // Building Block of Monkey Language
 type Node interface {
-	TokenLiteral() string // returns the literal value of the token it’s associated with
+	TokenLiteral() string // returns the literal value of the first token
+	String() string
 }
 
 // Node which produces value
