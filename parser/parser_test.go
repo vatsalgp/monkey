@@ -152,3 +152,18 @@ func checkParserErrors(t *testing.T, p *Parser) {
 	}
 	t.FailNow()
 }
+
+func TestString(t *testing.T) {
+	input := "let\tx\t=y;\n"
+	expectation := "let x = y;\n"
+
+	l := lexer.New(input)
+	p := New(l)
+
+	program := p.ParseProgram()
+	output := program.String()
+
+	if output != expectation {
+		t.Errorf("program.String() wrong.\ngot=%q\nexpected=%q", output, expectation)
+	}
+}
