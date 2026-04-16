@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/vatsalgp/monkey/ast"
@@ -154,8 +155,17 @@ func checkParserErrors(t *testing.T, p *Parser) {
 }
 
 func TestString(t *testing.T) {
-	input := "let\tx\t=y;\n"
-	expectation := "let x = y;\n"
+	input := `
+		let x = false;
+		let y = x;
+		return y;
+	`
+
+	expectation := `
+		let x = false;
+		let y = x;
+		return y;
+	`
 
 	l := lexer.New(input)
 	p := New(l)
@@ -163,7 +173,10 @@ func TestString(t *testing.T) {
 	program := p.ParseProgram()
 	output := program.String()
 
-	if output != expectation {
-		t.Errorf("program.String() wrong.\ngot=%q\nexpected=%q", output, expectation)
+	trimmedOutput := strings.TrimSpace(output)
+	trimmedExpectation := strings.ReplaceAll(strings.TrimSpace(expectation), "\t", "")
+
+	if trimmedOutput != trimmedExpectation {
+		t.Errorf("program.String() wrong.\ngot=%q\nexpected=%q", trimmedOutput, trimmedExpectation)
 	}
 }

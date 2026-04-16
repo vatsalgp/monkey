@@ -7,7 +7,7 @@ import (
 // Eg: "x"
 type Identifier struct {
 	Token *token.Token // x
-	Value string       // 0
+	Value string       // x
 }
 
 func (ident *Identifier) FirstTokenLiteral() string {
