@@ -54,12 +54,10 @@ func (p *Parser) parseReturnStmt() *ast.ReturnStatement {
 func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 	exprStmt := &ast.ExpressionStatement{}
 
-	// (y);
+	exprStmt.Token = p.currTok
+
 	expr := p.parseExpression()
 	exprStmt.Expression = expr
-
-	exprStmt.Token = nil
-	// TODO
 
 	return exprStmt
 }
