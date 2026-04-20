@@ -12,8 +12,7 @@ func (p *Parser) parseStatement() ast.Statement {
 	case token.RETURN.Type:
 		return p.parseReturnStmt()
 	default:
-		p.logError("Expected valid Let or Return Statement")
-		return nil
+		return p.parseExpressionStatement()
 	}
 }
 
@@ -50,4 +49,17 @@ func (p *Parser) parseReturnStmt() *ast.ReturnStatement {
 	returnStmt.ReturnValue = expr
 
 	return returnStmt
+}
+
+func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
+	exprStmt := &ast.ExpressionStatement{}
+
+	// (y);
+	expr := p.parseExpression()
+	exprStmt.Expression = expr
+
+	exprStmt.Token = nil
+	// TODO
+
+	return exprStmt
 }
