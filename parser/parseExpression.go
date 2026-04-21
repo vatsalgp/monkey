@@ -42,18 +42,12 @@ func (p *Parser) parseIdentifier() ast.Expression {
 }
 
 func (p *Parser) parseTrue() ast.Expression {
-	if !p.expectTokType(token.TRUE.Type) {
-		return nil
-	}
 	boolLit := &ast.BooleanLiteral{Token: p.currTok, Value: true}
 	p.advanceToken()
 	return boolLit
 }
 
 func (p *Parser) parseFalse() ast.Expression {
-	if !p.expectTokType(token.FALSE.Type) {
-		return nil
-	}
 	boolLit := &ast.BooleanLiteral{Token: p.currTok, Value: false}
 	p.advanceToken()
 	return boolLit
@@ -72,5 +66,15 @@ func (p *Parser) parseIntegerLiteral() ast.Expression {
 
 	lit.Value = value
 	p.advanceToken()
+	return lit
+}
+
+func (p *Parser) parsePrefixExpression() ast.Expression {
+	lit := &ast.PrefixExpression{Token: p.currTok, Operator: p.currTok}
+	p.advanceToken()
+
+	right := p.parseExpression(token.PREFIX)
+	lit.Right = right
+
 	return lit
 }

@@ -12,6 +12,8 @@ func New(lex *lexer.Lexer) *Parser {
 	p.advanceToken() // Set currTok
 
 	p.prefixParseFns = make(map[token.Type]prefixParseFn)
+	p.registerPrefix(token.NOT.Type, p.parsePrefixExpression)
+	p.registerPrefix(token.MINUS.Type, p.parsePrefixExpression)
 	p.registerPrefix(token.IDENTIFIER.Type, p.parseIdentifier)
 	p.registerPrefix(token.TRUE.Type, p.parseTrue)
 	p.registerPrefix(token.FALSE.Type, p.parseFalse)
