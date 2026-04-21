@@ -13,6 +13,8 @@ func New(lex *lexer.Lexer) *Parser {
 
 	p.prefixParseFns = make(map[token.Type]prefixParseFn)
 	p.registerPrefix(token.IDENTIFIER.Type, p.parseIdentifier)
+	p.registerPrefix(token.TRUE.Type, p.parseTrue)
+	p.registerPrefix(token.FALSE.Type, p.parseFalse)
 	p.registerPrefix(token.INTEGER_LITERAL.Type, p.parseIntegerLiteral)
 
 	return p

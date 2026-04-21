@@ -14,14 +14,6 @@ func (p *Parser) parseExpression(precedence token.Precedence) ast.Expression {
 	prefixParseFn := p.prefixParseFns[p.currTokType()]
 
 	if prefixParseFn == nil {
-		if (p.currTokType() == token.TRUE.Type || p.currTokType() == token.FALSE.Type) && p.peekTokType() == token.SEMICOLON.Type {
-			boolLit := p.parseBooleanLiteral()
-
-			p.parseSemiColonToken()
-
-			return boolLit
-		}
-
 		for p.currTokType() != token.SEMICOLON.Type {
 			p.advanceToken()
 		}
@@ -34,11 +26,10 @@ func (p *Parser) parseExpression(precedence token.Precedence) ast.Expression {
 	leftExpr := prefixParseFn()
 
 	if p.currTok.Type == token.SEMICOLON.Type {
-		p.advanceToken()
+		p.parseSemiColonToken()
 	}
 
 	return leftExpr
-
 }
 
 func (p *Parser) parseIdentifier() ast.Expression {
@@ -50,7 +41,7 @@ func (p *Parser) parseIdentifier() ast.Expression {
 	return iden
 }
 
-func (p *Parser) parseTrue() *ast.BooleanLiteral {
+func (p *Parser) parseTrue() ast.Expression {
 	if !p.expectTokType(token.TRUE.Type) {
 		return nil
 	}
@@ -59,24 +50,13 @@ func (p *Parser) parseTrue() *ast.BooleanLiteral {
 	return boolLit
 }
 
-func (p *Parser) parseFalse() *ast.BooleanLiteral {
+func (p *Parser) parseFalse() ast.Expression {
 	if !p.expectTokType(token.FALSE.Type) {
 		return nil
 	}
 	boolLit := &ast.BooleanLiteral{Token: p.currTok, Value: false}
 	p.advanceToken()
 	return boolLit
-}
-
-func (p *Parser) parseBooleanLiteral() *ast.BooleanLiteral {
-	if p.currTokType() == token.TRUE.Type {
-		return p.parseTrue()
-	}
-	if p.currTokType() == token.FALSE.Type {
-		return p.parseFalse()
-	}
-	p.logError(fmt.Sprintf("expected token to be a boolean literal, got %s instead", p.currTokType()))
-	return nil
 }
 
 func (p *Parser) parseIntegerLiteral() ast.Expression {
