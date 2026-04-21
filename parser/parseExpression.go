@@ -21,14 +21,6 @@ func (p *Parser) parseExpression(precedence token.Precedence) ast.Expression {
 			return boolLit
 		}
 
-		if p.currTokType() == token.IDENTIFIER.Type && p.peekTokType() == token.SEMICOLON.Type {
-			iden := p.parseIdentifier()
-
-			p.parseSemiColonToken()
-
-			return iden
-		}
-
 		for p.currTokType() != token.SEMICOLON.Type {
 			p.advanceToken()
 		}
