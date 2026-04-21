@@ -7,7 +7,7 @@ import (
 // Eg: "true"
 type BooleanLiteral struct {
 	Token *token.Token // true
-	Value string       // true
+	Value bool         // true
 }
 
 func (boolLit *BooleanLiteral) FirstTokenLiteral() string {
@@ -17,5 +17,5 @@ func (boolLit *BooleanLiteral) FirstTokenLiteral() string {
 func (boolLit *BooleanLiteral) expressionNode() {}
 
 func (boolLit *BooleanLiteral) String() string {
-	return boolLit.Value
+	return boolLit.Token.Literal
 }

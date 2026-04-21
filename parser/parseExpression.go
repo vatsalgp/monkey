@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/vatsalgp/monkey/ast"
 	"github.com/vatsalgp/monkey/token"
@@ -53,7 +54,7 @@ func (p *Parser) parseTrue() *ast.BooleanLiteral {
 	if !p.expectTokType(token.TRUE.Type) {
 		return nil
 	}
-	boolLit := &ast.BooleanLiteral{Token: p.currTok, Value: p.currTok.Literal}
+	boolLit := &ast.BooleanLiteral{Token: p.currTok, Value: true}
 	p.advanceToken()
 	return boolLit
 }
@@ -62,7 +63,7 @@ func (p *Parser) parseFalse() *ast.BooleanLiteral {
 	if !p.expectTokType(token.FALSE.Type) {
 		return nil
 	}
-	boolLit := &ast.BooleanLiteral{Token: p.currTok, Value: p.currTok.Literal}
+	boolLit := &ast.BooleanLiteral{Token: p.currTok, Value: false}
 	p.advanceToken()
 	return boolLit
 }
@@ -76,4 +77,20 @@ func (p *Parser) parseBooleanLiteral() *ast.BooleanLiteral {
 	}
 	p.logError(fmt.Sprintf("expected token to be a boolean literal, got %s instead", p.currTokType()))
 	return nil
+}
+
+func (p *Parser) parseIntegerLiteral() ast.Expression {
+	lit := &ast.IntegerLiteral{Token: p.currTok}
+
+	value, err := strconv.ParseInt(p.currTok.Literal, 0, 64)
+	if err != nil {
+		msg := fmt.Sprintf("could not parse %q as integer", p.currTok.Literal)
+		p.errors = append(p.errors, msg)
+		p.advanceToken()
+		return nil
+	}
+
+	lit.Value = value
+	p.advanceToken()
+	return lit
 }
