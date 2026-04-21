@@ -24,14 +24,17 @@ func (p *Parser) parseLetStmt() *ast.LetStatement {
 	letStmt.Token = letToken
 
 	// x
-	iden := p.parseIdentifier()
+	iden, ok := p.parseIdentifier().(*ast.Identifier)
+	if !ok {
+		return nil
+	}
 	letStmt.Name = iden
 
 	// =
 	p.parseAssignToken()
 
 	// (y)
-	expr := p.parseExpression()
+	expr := p.parseExpression(token.LOWEST)
 	letStmt.Value = expr
 
 	return letStmt
@@ -45,7 +48,7 @@ func (p *Parser) parseReturnStmt() *ast.ReturnStatement {
 	returnStmt.Token = returnToken
 
 	// (y)
-	expr := p.parseExpression()
+	expr := p.parseExpression(token.LOWEST)
 	returnStmt.ReturnValue = expr
 
 	return returnStmt
@@ -56,7 +59,7 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 
 	exprStmt.Token = p.currTok
 
-	expr := p.parseExpression()
+	expr := p.parseExpression(token.LOWEST)
 	exprStmt.Expression = expr
 
 	return exprStmt

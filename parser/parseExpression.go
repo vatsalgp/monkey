@@ -7,35 +7,48 @@ import (
 	"github.com/vatsalgp/monkey/token"
 )
 
-func (p *Parser) parseExpression() ast.Expression {
+func (p *Parser) parseExpression(precedence token.Precedence) ast.Expression {
 	// TODO: Parse all kinds of literals
 
-	if (p.currTokType() == token.TRUE.Type || p.currTokType() == token.FALSE.Type) && p.peekTokType() == token.SEMICOLON.Type {
-		boolLit := p.parseBooleanLiteral()
+	prefixParseFn := p.prefixParseFns[p.currTokType()]
+
+	if prefixParseFn == nil {
+		if (p.currTokType() == token.TRUE.Type || p.currTokType() == token.FALSE.Type) && p.peekTokType() == token.SEMICOLON.Type {
+			boolLit := p.parseBooleanLiteral()
+
+			p.parseSemiColonToken()
+
+			return boolLit
+		}
+
+		if p.currTokType() == token.IDENTIFIER.Type && p.peekTokType() == token.SEMICOLON.Type {
+			iden := p.parseIdentifier()
+
+			p.parseSemiColonToken()
+
+			return iden
+		}
+
+		for p.currTokType() != token.SEMICOLON.Type {
+			p.advanceToken()
+		}
 
 		p.parseSemiColonToken()
 
-		return boolLit
+		return nil
 	}
 
-	if p.currTokType() == token.IDENTIFIER.Type && p.peekTokType() == token.SEMICOLON.Type {
-		iden := p.parseIdentifier()
+	leftExpr := prefixParseFn()
 
-		p.parseSemiColonToken()
-
-		return iden
-	}
-
-	for p.currTokType() != token.SEMICOLON.Type {
+	if p.currTok.Type == token.SEMICOLON.Type {
 		p.advanceToken()
 	}
 
-	p.parseSemiColonToken()
+	return leftExpr
 
-	return nil
 }
 
-func (p *Parser) parseIdentifier() *ast.Identifier {
+func (p *Parser) parseIdentifier() ast.Expression {
 	if !p.expectTokType(token.IDENTIFIER.Type) {
 		return nil
 	}

@@ -2,6 +2,7 @@ package parser
 
 import (
 	"github.com/vatsalgp/monkey/lexer"
+	"github.com/vatsalgp/monkey/token"
 )
 
 func New(lex *lexer.Lexer) *Parser {
@@ -9,6 +10,9 @@ func New(lex *lexer.Lexer) *Parser {
 
 	p.advanceToken() // Set peekTok
 	p.advanceToken() // Set currTok
+
+	p.prefixParseFns = make(map[token.Type]prefixParseFn)
+	p.registerPrefix(token.IDENTIFIER.Type, p.parseIdentifier)
 
 	return p
 }
